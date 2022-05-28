@@ -23,7 +23,6 @@ export default {
   plugins: [
     "~/plugins/axios",
     "~/plugins/vuelidate",
-    { src: "~/plugins/bottom-navigation-vue", mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -41,6 +40,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     '@nuxtjs/pwa',
+    '@nuxtjs/dayjs',
   ],
 
   router: {
@@ -83,15 +83,15 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     meta: {
-      title: 'MyStuffApp',
+      title: 'Pay Flow',
       author: 'Eric Lempe',
     },
     manifest: {
-      name: 'MyStuff',
+      name: 'PayFlow',
       lang: 'pt-br',
       useWebmanifestExtension: false,
-      short_name: 'MyStuff',
-      description: 'App para gerenciar gastos e despesas',
+      short_name: 'PayFlow',
+      description: 'App para gerenciar despesas',
       start_url: '/',
       background_color: '#425c59',
       theme_color: "#425c59",
@@ -126,9 +126,18 @@ export default {
     }
   },
 
+  // Day JS
+  dayjs: {
+    locales: ['pt-br'],
+    defaultLocale: 'pt-br',
+    plugins: [
+      'utc',
+      'timezone'
+    ]
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: ['bottom-navigation-vue'],
     postcss: {
       plugins: {
         tailwindcss: {},

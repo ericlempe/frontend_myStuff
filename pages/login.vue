@@ -1,6 +1,6 @@
 <template>
   <div class="tw-h-screen tw-flex tw-flex-col tw-items-center tw-justify-evenly tw-bg-[#425c59] tw-w-full tw-px-6">
-    <img class="tw-w-36 wt-h-36 tw-mt-5" src="@/assets/img/logo-title.png" alt="logo">
+    <img class="tw-mt-5 tw-h-52 tw-w-52" src="@/assets/img/logo.png" alt="logo">
     <v-form>
       <v-row dense>
         <v-col cols="12">
@@ -54,9 +54,15 @@
       </v-row>
     </v-form>
     <div class="tw-flex tw-flex-col tw-mb-5">
-      <v-btn elevation="5" block x-large :loading="loading" color="#FECDA4" @click.prevent.stop="onSubmit" rounded>
+      <v-btn elevation="5" block x-large color="#FECDA4" @click.prevent.stop="onSubmit" rounded>
         <span class="tw-text-[#425c59] tw-font-bold">Entrar</span>
       </v-btn>
+      <v-overlay :value="loading">
+        <v-progress-circular
+          indeterminate
+          size="64"
+        ></v-progress-circular>
+      </v-overlay>
       <p class="tw-flex tw-row tw-justify-center tw-text-gray-500 tw-mt-4">
         Não possui conta?
         <NuxtLink class="nuxtlink-registrar tw-ml-2" to="/registrar">Registrar</NuxtLink>

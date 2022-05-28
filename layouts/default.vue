@@ -1,53 +1,38 @@
 <template>
-  <v-app>
-    <v-main>
+  <v-app class="relative">
+    <v-main app>
       <Nuxt/>
     </v-main>
+    <v-bottom-navigation height="70" v-model="value" grow fixed>
+      <div class="tw-relative tw-flex tw-justify-around tw-flex-1 tw-py-2">
 
-    <v-footer padless>
-      <GrowBottomNavigation color="#425c59" :options="options" v-model="selected" replaceRoute>
-        <template #icon="{ props }">
-          <v-icon>{{ props.icon }}</v-icon>
-        </template>
-        <template #title="{ props }"><b>{{ props.title }}</b></template>
-      </GrowBottomNavigation>
-    </v-footer>
+        <div class="tw-flex tw-flex-row tw-justify-between tw-mr-4">
+          <BottomNavigatorLink icon="mdi-home" route="dashboard"/>
+          <BottomNavigatorLink icon="mdi-receipt" route="faturas"/>
+        </div>
+
+        <div class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-bg-[#425c59] tw-w-14 tw-h-14 tw-absolute -tw-top-4 tw-right-30 tw-rounded-full">
+          <Payment/>
+        </div>
+
+        <div class="tw-flex tw-flex-row tw-justify-between tw-ml-4">
+          <BottomNavigatorLink icon="mdi-chart-arc" route="analitico"/>
+          <BottomNavigatorLink icon="mdi-account" route="perfil"/>
+        </div>
+      </div>
+    </v-bottom-navigation>
   </v-app>
 </template>
 
 <script>
-import {GrowBottomNavigation} from "bottom-navigation-vue";
 
 export default {
-  components: {GrowBottomNavigation},
   name: 'DefaultLayout',
   data() {
     return {
-      selected: 1,
-      options: [
-        {id: 1, icon: 'mdi-home', title: 'Início', color: '#FECDA4', path: {name: "dashboard"}},
-        {id: 2, icon: 'mdi-wallet', title: 'Faturas', color: '#FECDA4', path: {name: "faturas"}},
-        {id: 3, icon: 'mdi-chart-pie', title: 'Analítico', color: '#FECDA4', path: {name: "dashboard"}},
-        {id: 4, icon: 'mdi-account', title: 'Perfil', color: '#FECDA4', path: {name: "perfil"}},
-      ],
+      value: 'recent',
+      btnColor: '#425c59'
     }
-  },
-  computed: {
-  },
-  methods: {
-    async logout() {
-      await this.$auth.logout();
-      await this.$router.push('/login');
-    },
-    novo() {
-      this.$router.push('/novo');
-    },
-    config() {
-      this.$router.push('/configuracoes');
-    },
-    dashboard() {
-      this.$router.push('/dashboard');
-    },
   },
 }
 </script>

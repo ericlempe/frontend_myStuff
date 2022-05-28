@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tw-relative tw-rounded-lg tw-border tw-border-gray-300 tw-bg-white tw-px-6 tw-py-5 tw-shadow-sm tw-flex tw-items-center tw-space-x-3 hover:tw-border-gray-400">
+    class="tw-relative tw-rounded-lg tw-border tw-border-gray-300 tw-bg-white tw-px-6 tw-py-5 tw-shadow-xl tw-flex tw-items-center tw-space-x-3 hover:tw-border-gray-400">
     <p v-if="loading" class="tw-text-sm tw-font-medium tw-text-gray-900 tw-w-28 tw-h-6 tw-skloader"></p>
     <p v-else class="tw-text-sm tw-font-medium tw-text-gray-900 tw-w-28 tw-h-6">{{ title }}</p>
     <div v-if="loading" class="tw-absolute tw-top-1 tw-right-1 tw-w-10 tw-h-10 tw-rounded-full tw-skloader"></div>
