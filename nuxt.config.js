@@ -23,6 +23,7 @@ export default {
   plugins: [
     "~/plugins/axios",
     "~/plugins/vuelidate",
+    { src : '~/plugins/vue-apexchart.js', ssr : false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -30,9 +31,9 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxt/postcss8',
+    '@nuxtjs/dotenv',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -76,7 +77,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.API_URL,
+    baseURL: 'buceta',
     credentials: true
   },
 

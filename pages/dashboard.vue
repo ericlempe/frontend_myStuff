@@ -1,6 +1,6 @@
 <template>
-
   <div class="">
+
     <div class="tw-bg-[#425c59] tw-px-4 tw-py-2">
       <!-- Welcome user and icon notification -->
       <div class="tw-flex tw-flex-row tw-items-center tw-justify-between tw-items-center tw-pt-4">
@@ -15,28 +15,19 @@
       </div>
 
       <div class="tw-flex tw-flex-row tw-justify-center">
-        <div class="tw-flex tw-items-center tw-justify-center tw-skloader-dark tw-w-44 tw-h-44 tw-rounded-full tw-my-4 tw-relative">
-           <div class="tw-flex tw-items-center tw-justify-center tw-bg-[#425c59] tw-w-36 tw-h-36 tw-rounded-full tw-absolute">
-
-           </div>
-        </div>
+        <RadialBar v-if="!loading || series.length > 0" :series="series"/>
+        <div v-else class="tw-h-24 tw-w-full"></div>
       </div>
     </div>
 
     <p class="tw-font-bold tw-text-xl tw-text-[#425c59] tw-my-2 tw-px-4">Próximos Vencimentos</p>
-
     <div class="tw-flex tw-flex-row tw-justify-evenly tw-my-2">
-      <div class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-h-20 tw-w-20 tw-rounded-lg"
-           :class="loading ? 'tw-skloader' : 'tw-bg-red-400'" v-text="loading ? '' : '15/04'">
-      </div>
-      <div class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-h-20 tw-w-20 tw-rounded-lg"
-           :class="loading ? 'tw-skloader' : 'tw-bg-red-400'" v-text="loading ? '' : '17/04'">
-      </div>
-      <div class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-h-20 tw-w-20 tw-rounded-lg"
-           :class="loading ? 'tw-skloader' : 'tw-bg-red-400'" v-text="loading ? '' : '23/04'">
+      <div v-for="nextPayment in nextPayments"
+           class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-h-16 tw-w-16 tw-rounded-lg"
+           :class="loading ? 'tw-skloader' : 'tw-bg-[#FECDA4] tw-text-[#425c59] tw-font-black tw-text-lg'"
+           v-text="loading ? '' : nextPayment">
       </div>
     </div>
-
 
     <p class="tw-font-bold tw-text-xl tw-text-[#425c59] tw-mb-4 tw-px-4">Meus Boletos</p>
     <!-- List of expenses -->
@@ -45,6 +36,9 @@
         <template v-for="expense in expenses">
           <ExpenseCard :expense="expense" :loading="loading"></ExpenseCard>
         </template>
+<!--        <div class="tw-flex tw-justify-center tw-items-end tw-h-40 tw-italic" v-else>-->
+<!--          <h4>Nenhum boleto pendente.</h4>-->
+<!--        </div>-->
       </div>
     </div>
   </div>
@@ -58,28 +52,38 @@ export default {
   },
   mounted() {
     this.user.name = this.$auth.user.name;
-    this.getExpenses()
+    this.getExpenses();
+    this.getNextPayments();
+    this.getTotalExpense();
+    setTimeout(() => {
+      // this.loading = false;
+    }, 4000);
+
   },
   data() {
     return {
       loading: true,
+      series: [],
       user: {
         name: '',
       },
-      expenses: [...Array(200).keys()],
+      expenses: [...Array(4).keys()],
+      nextPayments: [...Array(3).keys()],
     }
   },
   methods: {
     async getExpenses() {
-      this.$axios.get('/invoices/expenses?status=pending').then(({data}) => {
-        setTimeout(() => {
-          // this.expenses = data.data;
-          // this.loading = false;
-        }, 5000);
-      }).catch(error => {
-        $nuxt.$emit('snackbar', error.response.data.message, 'black');
-      });
+      let {data} = await this.$axios.get('/invoices/expenses?status=pending');
+      // this.expenses = data;
     },
+    async getNextPayments() {
+      let {data} = await this.$axios.get('/invoices/next-dues');
+      // this.nextPayments = data;
+    },
+    async getTotalExpense() {
+      let {data} = await this.$axios.get('/invoices/total');
+      this.series.push(data.vlrPorcentagem);
+    }
   },
 }
 </script>
